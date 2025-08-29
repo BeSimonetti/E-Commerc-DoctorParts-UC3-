@@ -2,13 +2,17 @@
 session_start();
 include '../classes/usuario.class.php';
 include '../classes/produto.class.php';
-
+include '../classes/carrinho.class.php';
 
 $usuarioLogadoId = $_SESSION['usuario_id'] ?? null;
 
 
 $a = new Usuario();
 $usuario = $a->selectUsuarioId($usuarioLogadoId);
+
+$carrinho = new Carrinho();
+$quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
+
 
 
 ?>
@@ -62,299 +66,140 @@ $usuario = $a->selectUsuarioId($usuarioLogadoId);
             </div>
 
             <!-- Shopping cart icon -->
-            <div id="divCarrinho">
-                <img src="../../../assets/images/carrinho.jpg" width="30px" height="30px" alt="Cart" />
+            <div id="divCarrinho" style="position: relative;">
+                <a href="carrinho.php">
+                    <img src="../../../assets/images/carrinho.jpg" width="30px" height="30px" alt="Cart" />
+                    <?php if ($quantidadeItens > 0): ?>
+                        <span class="badge-carrinho"><?= $quantidadeItens ?></span>
+                    <?php endif; ?>
+                </a>
             </div>
         </nav>
     </header>
-
-    <div class="carrosseis-container">  
-        <!-- Product carousel section -->
-        <div class="carrossel">
-            <h1>Diversos</h1>
-            <div class="carrossel-wrapper" style="display: flex; align-items: center;">
-                <!-- Left navigation button -->
-                <div class="botoes">
-                    <button class="botao-carrosel esquerda" onclick="voltar()">←</button>
-                </div>
-                
-
-                <!-- Carousel slides container -->
-                <div style="overflow-x: hidden;">
-                    <div class="slides" id="slides">
-                        <!-- Each product slide -->
-                        <?php $produtos = listarProdutos("Bauleto");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Capacete");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Escapamento");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Espelho");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Guidão");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Jaqueta");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right navigation button -->
-                <div class="botoes">
-                    <button class="botao-carrosel direita" onclick="avancar()">→</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="carrossel">
-            <h1>Óleos e lubrificantes</h1>
-            <div class="carrossel-wrapper" style="display: flex; align-items: center;">
-                <!-- Left navigation button -->
-                <div class="botoes">
-                    <button class="botao-carrosel esquerda" onclick="voltar()">←</button>
-                </div>
-
-                <!-- Carousel slides container -->
-                <div style="overflow-x: hidden;">
-                    <div class="slides" id="slides">
-                        <!-- Each product slide -->
-                        <?php $produtos = listarProdutos("Bauleto");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Capacete");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Escapamento");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Espelho");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Guidão");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Jaqueta");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right navigation button -->
-                <div class="botoes">
-                    <button class="botao-carrosel direita" onclick="avancar()">→</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="carrossel">
-            <h1>Pneus</h1>
-            <div class="carrossel-wrapper" style="display: flex; align-items: center;">
-                <!-- Left navigation button -->
-                <div class="botoes">
-                    <button class="botao-carrosel esquerda" onclick="voltar()">←</button>
-                </div>
-
-                <!-- Carousel slides container -->
-                <div style="overflow-x: hidden;">
-                    <div class="slides" id="slides">
-                        <!-- Each product slide -->
-                        <?php $produtos = listarProdutos("Bauleto");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Capacete");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Escapamento");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Espelho");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Guidão");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $produtos = listarProdutos("Jaqueta");?>
-                        <div class="slides" id="slides">
-                            <?php foreach ($produtos as $produto): ?>
-                                <div class="slide">
-                                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                                    <div class="descricao">
-                                        <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                                    </div>
-                                    <button class="botao-carrinho">Adicionar ao carrinho</button>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right navigation button -->
-                <div class="botoes">
-                    <button class="botao-carrosel direita" onclick="avancar()">→</button>
-                </div>
-            </div>
-        </div>
-        
+    <main>
+        <div class="carrosseis-container">  
+            <!-- Product carousel section -->
             <div class="carrossel">
-                <h1>Roupas</h1>
+                <h1>Diversos</h1>
+                <div class="carrossel-wrapper" style="display: flex; align-items: center;">
+                    <!-- Left navigation button -->
+                    <div class="botoes">
+                        <button class="botao-carrosel esquerda" onclick="voltar()">←</button>
+                    </div>
+                    
+
+                    <!-- Carousel slides container -->
+                    <div style="overflow-x: hidden;">
+                        <div class="slides" id="slides">
+                            <!-- Each product slide -->
+                            <?php $produtos = listarProdutos("Bauleto");?>
+                            <div class="slides" id="slides">
+                                <?php foreach ($produtos as $produto): ?>
+                                    <div class="slide">
+                                        <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                                        <div class="descricao">
+                                            <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                                        </div>
+                                        <form method="POST" action="../controllers/adicionarAoCarrinho.php">
+                                            <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
+                                            <input type="hidden" name="quantidade" value="1">
+                                            <button type="submit" class="botao-carrinho">Adicionar ao carrinho</button>
+                                        </form>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php $produtos = listarProdutos("Capacete");?>
+                            <div class="slides" id="slides">
+                                <?php foreach ($produtos as $produto): ?>
+                                    <div class="slide">
+                                        <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                                        <div class="descricao">
+                                            <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                                        </div>
+                                        <form method="POST" action="../controllers/adicionarAoCarrinho.php">
+                                            <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
+                                            <input type="hidden" name="quantidade" value="1">
+                                            <button type="submit" class="botao-carrinho">Adicionar ao carrinho</button>
+                                        </form>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php $produtos = listarProdutos("Escapamento");?>
+                            <div class="slides" id="slides">
+                                <?php foreach ($produtos as $produto): ?>
+                                    <div class="slide">
+                                        <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                                        <div class="descricao">
+                                            <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                                        </div>
+                                        <form method="POST" action="../controllers/adicionarAoCarrinho.php">
+                                            <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
+                                            <input type="hidden" name="quantidade" value="1">
+                                            <button type="submit" class="botao-carrinho">Adicionar ao carrinho</button>
+                                        </form>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php $produtos = listarProdutos("Espelho");?>
+                            <div class="slides" id="slides">
+                                <?php foreach ($produtos as $produto): ?>
+                                    <div class="slide">
+                                        <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                                        <div class="descricao">
+                                            <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                                        </div>
+                                        <form method="POST" action="../controllers/adicionarAoCarrinho.php">
+                                            <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
+                                            <input type="hidden" name="quantidade" value="1">
+                                            <button type="submit" class="botao-carrinho">Adicionar ao carrinho</button>
+                                        </form>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php $produtos = listarProdutos("Guidão");?>
+                            <div class="slides" id="slides">
+                                <?php foreach ($produtos as $produto): ?>
+                                    <div class="slide">
+                                        <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                                        <div class="descricao">
+                                            <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                                        </div>
+                                        <form method="POST" action="../controllers/adicionarAoCarrinho.php">
+                                            <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
+                                            <input type="hidden" name="quantidade" value="1">
+                                            <button type="submit" class="botao-carrinho">Adicionar ao carrinho</button>
+                                        </form>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php $produtos = listarProdutos("Jaqueta");?>
+                            <div class="slides" id="slides">
+                                <?php foreach ($produtos as $produto): ?>
+                                    <div class="slide">
+                                        <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                                        <div class="descricao">
+                                            <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                                        </div>
+                                        <form method="POST" action="../controllers/adicionarAoCarrinho.php">
+                                            <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
+                                            <input type="hidden" name="quantidade" value="1">
+                                            <button type="submit" class="botao-carrinho">Adicionar ao carrinho</button>
+                                        </form>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right navigation button -->
+                    <div class="botoes">
+                        <button class="botao-carrosel direita" onclick="avancar()">→</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carrossel">
+                <h1>Óleos e lubrificantes</h1>
                 <div class="carrossel-wrapper" style="display: flex; align-items: center;">
                     <!-- Left navigation button -->
                     <div class="botoes">
@@ -447,7 +292,8 @@ $usuario = $a->selectUsuarioId($usuarioLogadoId);
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+
     <!-- Website footer -->
     <footer>
         <div class="footer">

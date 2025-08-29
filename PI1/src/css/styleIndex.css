@@ -73,6 +73,11 @@ header {
   font-weight: bold;
 }
 
+/* Shopping cart icon */
+#divCarrinho img {
+  margin-left: 10px;
+}
+
 .link-acao.cadastro{
   color: #FF9900;
   text-decoration: none;
@@ -289,16 +294,25 @@ button {
 .modal-conteudo button[type="submit"]:hover {
   background-color: #e08800;
 }
-/* Footer section */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* Faz o main ocupar o espaço disponível */
+}
+
 footer {
   background-color: #333;
   color: white;
   padding: 30px 20px;
-  margin-top: 50px;
-  bottom: 0;
+  margin-top: auto; /* Empurra o footer para o fim */
   left: 0;
   width: 100%;
-  height: 150px;
 }
 
 .footer {

@@ -217,7 +217,7 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
         <div class="modal-conteudo">
             <span class="fechar" onclick="fecharPopupEditarDadosEndereco()">&times;</span>
             <h2>Editar Dados do Endereço</h2>
-            <form id="formEditarDadosEndereco" action="../controllers/editarEndereco.php" method="POST">
+            <form id="formEditarDadosEndereco" action="../controllers/editarDadosEndereco.php" method="POST">
                 <input type="hidden" name="id_endereco" id="editar_id_endereco">
                 <input type="hidden" name="id_usuario" value="<?php echo $usuario['id_usuario']; ?>">
                 
