@@ -2,17 +2,23 @@
 session_start();
 include '../classes/usuario.class.php';
 include '../classes/produto.class.php';
-include '../classes/carrinho.class.php';
+include_once '../classes/carrinho.class.php';
 
 $usuarioLogadoId = $_SESSION['usuario_id'] ?? null;
 
+$termoBusca = $_GET['q'] ?? '';
+$produtosBuscados = [];
+
+if (!empty($termoBusca)) {
+    $produtoObj = new Produto();
+    $produtosBuscados = $produtoObj->buscarPorNome($termoBusca);
+}
 
 $a = new Usuario();
 $usuario = $a->selectUsuarioId($usuarioLogadoId);
 
 $carrinho = new Carrinho();
 $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
-
 
 
 ?>
@@ -46,22 +52,24 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
                 <li><a href="#">Contato</a></li>
             </ul>
 
-            <!-- Search bar -->
             <div id="divBusca">
-                <input type="text" id="txtBusca" placeholder="Buscar..." />
-                <img src="../../../assets/images/lupa.jpg" width="20px" height="20px" id="btnBusca" alt="Search" />
+                <form action="index.php" method="GET" style="display: flex; align-items: center;">
+                    <input type="text" id="txtBusca" name="q" placeholder="Buscar..." required />
+                    <button type="submit" style="background: none; border: none; cursor: pointer;">
+                        <img src="../../../assets/images/lupa.jpg" width="20px" height="20px" alt="Buscar" />
+                    </button>
+                </form>
             </div>
 
             <!-- User login/register -->
             <div class="user-access">
                 <?php if ($usuario): ?>
-                    <span>Bem-vindo, <a href="areaUsuario.php" class="link-acao logado"><?= htmlspecialchars($usuario['nome']) ?></a>!</span>
-                    |
-                    <a href="../controllers/logout.php" class="link-acao logado">Sair</a>
+                    <span>Bem-vindo, <a href="areaUsuario.php" class="yolonosay logado"><?= htmlspecialchars($usuario['nome']) ?></a>!</span> | 
+                    <a href="../controllers/logout.php" class="yolonosay logado">Sair</a>
                 <?php else: ?>
-                    <a href="javascript:void(0)" onclick="abrirPopupLogin()" class="link-acao cadastro">Entre</a> 
+                    <a href="javascript:void(0)" onclick="abrirPopupLogin()" class="yolonosay cadastro">Entre</a> 
                     ou 
-                    <a href="javascript:void(0)" onclick="abrirPopupCadastro()" class="link-acao cadastro">Cadastre-se</a>
+                    <a href="javascript:void(0)" onclick="abrirPopupCadastro()" class="yolonosay cadastro">Cadastre-se</a>
                 <?php endif; ?>
             </div>
 
@@ -77,6 +85,29 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
         </nav>
     </header>
     <main>
+    <?php if (!empty($termoBusca)): ?>
+        <h2 style="text-align:center;">Resultados para: "<?= htmlspecialchars($termoBusca) ?>"</h2>
+        <div class="carrossel resultado-busca" style="flex-wrap: wrap; justify-content: center;">
+            <?php if (count($produtosBuscados) > 0): ?>
+                <?php foreach ($produtosBuscados as $produto): ?>
+                    <div class="slide">
+                        <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                        <div class="descricao">
+                            <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                        </div>
+                        <form method="POST" action="controllers/adicionarAoCarrinho.php">
+                            <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
+                            <input type="hidden" name="quantidade" value="1">
+                            <button type="submit" class="botao-carrinho">Adicionar ao carrinho</button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p style="text-align:center;">Nenhum produto encontrado.</p>
+            <?php endif; ?>
+        </div>
+    <?php else: ?>
+
         <div class="carrosseis-container">  
             <!-- Product carousel section -->
             <div class="carrossel">
@@ -292,6 +323,7 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </main>
 
     <!-- Website footer -->

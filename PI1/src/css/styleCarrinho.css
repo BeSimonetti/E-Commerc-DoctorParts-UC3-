@@ -91,15 +91,30 @@ header {
   font-size: 14px;
 }
 
-.user-access a {
+
+.yolonosay.cadastro{
   color: #FF9900;
   text-decoration: none;
   font-weight: bold;
-  margin: 0 5px;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.yolonosay.cadastro:hover {
+  color: #e08800;
 }
 
-.user-access a:hover {
-  text-decoration: underline;
+.yolonosay.logado{
+  color: #FF9900;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.yolonosay.logado:hover {
+  color: #e08800;
 }
 
 /* MAIN CONTAINER */

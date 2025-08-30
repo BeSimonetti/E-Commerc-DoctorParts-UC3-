@@ -76,29 +76,31 @@ header {
 /* User login/register area */
 .user-access {
   color: white;
-  font-weight: bold;
+  font-size: 14px;
 }
 
-.link-acao.cadastro{
+.yolonosay.cadastro{
   color: #FF9900;
   text-decoration: none;
   font-weight: bold;
   transition: background-color 0.3s;
+  text-transform: uppercase;
   cursor: pointer;
 }
-.link-acao.cadastro:hover {
+.yolonosay.cadastro:hover {
   color: #e08800;
 }
 
-.link-acao.logado{
+.yolonosay.logado{
   color: #FF9900;
   text-decoration: none;
   font-weight: bold;
   transition: background-color 0.3s;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
-.link-acao.logado:hover {
+.yolonosay.logado:hover {
   color: #e08800;
 }
 
@@ -271,10 +273,9 @@ main{
 
 
 
-/* Modal container */
 .modal {
   position: fixed;
-  display: none;
+  display: none; /* quando abre vira flex */
   justify-content: center;
   align-items: center;
   top: 0;
@@ -285,7 +286,6 @@ main{
   z-index: 1000;
 }
 
-/* Modal content box */
 .modal-conteudo {
   background: #111;
   padding: 30px 25px;
@@ -297,7 +297,39 @@ main{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: relative;
   text-align: center;
+  margin: 0 auto; /* segurança extra */
 }
+
+
+ /* .modal {
+  position: fixed;
+  display: none; 
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}  */
+
+/* .modal-conteudo {
+  background: #111;
+  padding: 30px 25px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 350px;
+  box-shadow: 0 0 10px #ff9900;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  text-align: center;
+
+  margin: 0 auto;
+} */
+
+
 
 /* Close button */
 .fechar {
@@ -457,4 +489,15 @@ footer {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
   text-align: center;
   cursor: pointer;
+}
+
+.badge-carrinho {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
 }

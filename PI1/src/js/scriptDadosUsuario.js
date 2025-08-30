@@ -174,7 +174,7 @@ function abrirPopupEditarDadosEndereco(endereco) {
     document.getElementById("editar_estado").value = endereco.estado;
     document.getElementById("editar_complemento").value = endereco.complemento;
 
-    document.getElementById("popupEditarDadosEndereco").style.display = "block";
+    document.getElementById("popupEditarDadosEndereco").style.display = "flex";
 }
 
 // Fechar modal

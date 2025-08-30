@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 /* Corpo */
 body {
   font-family: Arial, sans-serif;
@@ -14,7 +18,7 @@ body {
   min-height: 100vh;
 }
 
-/* Cabeçalho fixo */
+/* Fixed header styles */
 header {
   position: fixed;
   top: 0;
@@ -26,6 +30,7 @@ header {
   box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
+/* Navigation bar */
 .menu {
   display: flex;
   align-items: center;
@@ -34,11 +39,12 @@ header {
   flex-wrap: wrap;
 }
 
+/* Company logo */
 .menu .logo img {
   height: 85px;
 }
 
-/* Links de navegação */
+/* Navigation links */
 .nav-links {
   list-style: none;
   display: flex;
@@ -51,7 +57,7 @@ header {
   font-weight: bold;
 }
 
-/* Busca */
+/* Search bar container */
 #divBusca {
   display: flex;
   align-items: center;
@@ -64,16 +70,47 @@ header {
   border: none;
   padding: 5px;
   outline: none;
+  align-items: center;
 }
 
-/* Área de login */
+/* User login/register area */
 .user-access {
   color: white;
+  font-size: 14px;
 }
 
-/* Carrinho */
+.yolonosay.cadastro{
+  color: #FF9900;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.yolonosay.cadastro:hover {
+  color: #e08800;
+}
+
+.yolonosay.logado{
+  color: #FF9900;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.yolonosay.logado:hover {
+  color: #e08800;
+}
+
+/* Shopping cart icon */
 #divCarrinho img {
   margin-left: 10px;
+}
+
+main{
+  flex: 1;
 }
 
 /* Container e mini menu */
@@ -189,4 +226,15 @@ footer {
 
 .footer-descricao h2 {
   margin-bottom: 10px;
+}
+
+.badge-carrinho {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
 }

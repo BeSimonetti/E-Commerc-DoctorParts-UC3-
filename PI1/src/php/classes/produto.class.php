@@ -82,9 +82,23 @@
         public function setDataCriacao($data_criacao) {
             $this->data_criacao = $data_criacao;
         }
-    }
 
-    
+        public function buscarPorNome($termo) {
+            $conexao = new Conexao();
+            $db = $conexao->getConnection();
+            $sql = "SELECT * FROM produtos WHERE nome LIKE :termo";
+            try {
+                $stmt = $db->prepare($sql);
+                $termoBusca = "%" . $termo . "%";
+                $stmt->bindParam(':termo', $termoBusca, PDO::PARAM_STR);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+                echo 'Erro ao buscar produto: ' . $e->getMessage();
+                return [];
+            }
+        }
+    }
 
     function listarProdutos($nome) {
     $conexao = new Conexao();
@@ -102,4 +116,5 @@
         echo 'Erro ao listar produto: ' . $e->getMessage();
         return [];
     }
+
 }

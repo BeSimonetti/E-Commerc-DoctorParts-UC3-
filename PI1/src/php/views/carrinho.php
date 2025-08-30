@@ -61,11 +61,12 @@ $itens = $carrinho->listarItens($usuarioLogadoId);
             <!-- User login/register -->
             <div class="user-access">
                 <?php if ($usuario): ?>
-                    <span>Bem-vindo, <a href="dadosUsuario.php"><?= htmlspecialchars($usuario['nome']) ?></a>!</span> | 
-                    <a href="logout.php">Sair</a>
+                    <span>Bem-vindo, <a href="areaUsuario.php" class="yolonosay logado"><?= htmlspecialchars($usuario['nome']) ?></a>!</span> | 
+                    <a href="../controllers/logout.php" class="yolonosay logado">Sair</a>
                 <?php else: ?>
-                    <a href="javascript:void(0)" onclick="abrirPopupLogin()">Entre</a> ou 
-                    <a href="javascript:void(0)" onclick="abrirPopupCadastro()">Cadastre-se</a>
+                    <a href="javascript:void(0)" onclick="abrirPopupLogin()" class="yolonosay cadastro">Entre</a> 
+                    ou 
+                    <a href="javascript:void(0)" onclick="abrirPopupCadastro()" class="yolonosay cadastro">Cadastre-se</a>
                 <?php endif; ?>
             </div>
         </nav>
