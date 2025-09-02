@@ -108,7 +108,8 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
                                     <a href="javascript:void(0)" onclick='abrirPopupEditarDadosEndereco(<?php echo json_encode($endereco, JSON_UNESCAPED_UNICODE); ?>)' class="link-acao editar">EDITAR</a>
 
                                     <?php if (!$endereco['padrao']): ?>
-                                        <a href="javascript:void(0)" onclick="tornarPadrao(<?php echo $endereco['id_endereco'] ?>)" class="link-acao padrao">DEIXAR PADRÃO</a>
+                                       <a href="javascript:void(0)" onclick="tornarPadrao(<?= $endereco['id_endereco'] ?>)" class="link-acao padrao">DEIXAR PADRÃO</a>
+
                                     <?php else: ?>
                                         <span class="link-acao padrao">PADRÃO</span>
                                     <?php endif; ?>

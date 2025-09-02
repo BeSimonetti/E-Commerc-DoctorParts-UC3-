@@ -52,6 +52,7 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
                 <li><a href="#">Contato</a></li>
             </ul>
 
+            <!-- Search bar -->
             <div id="divBusca">
                 <form action="index.php" method="GET" style="display: flex; align-items: center;">
                     <input type="text" id="txtBusca" name="q" placeholder="Buscar..." required />
@@ -74,40 +75,40 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
             </div>
 
             <!-- Shopping cart icon -->
-            <div id="divCarrinho" style="position: relative;">
-                <a href="carrinho.php">
-                    <img src="../../../assets/images/carrinho.jpg" width="30px" height="30px" alt="Cart" />
-                    <?php if ($quantidadeItens > 0): ?>
-                        <span class="badge-carrinho"><?= $quantidadeItens ?></span>
-                    <?php endif; ?>
-                </a>
-            </div>
+                <div id="divCarrinho" style="position: relative;">
+                    <a href="carrinho.php">
+                        <img src="../../../assets/images/carrinho.jpg" width="30px" height="30px" alt="Cart" />
+                        <?php if ($quantidadeItens > 0): ?>
+                            <span class="badge-carrinho"><?= $quantidadeItens ?></span>
+                        <?php endif; ?>
+                    </a>
+                </div>
         </nav>
     </header>
-    <main>
+
     <?php if (!empty($termoBusca)): ?>
-        <h2 style="text-align:center;">Resultados para: "<?= htmlspecialchars($termoBusca) ?>"</h2>
-        <div class="carrossel resultado-busca" style="flex-wrap: wrap; justify-content: center;">
-            <?php if (count($produtosBuscados) > 0): ?>
-                <?php foreach ($produtosBuscados as $produto): ?>
-                    <div class="slide">
-                        <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                        <div class="descricao">
-                            <?= htmlspecialchars($produto['nome']) ?> - R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-                        </div>
+    <h2 style="text-align:center;">Resultados para: "<?= htmlspecialchars($termoBusca) ?>"</h2>
+    <div class="resultado-lista">
+        <?php if (count($produtosBuscados) > 0): ?>
+            <?php foreach ($produtosBuscados as $produto): ?>
+                <div class="item-busca">
+                    <img src="<?= htmlspecialchars($produto['image_url']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                    <div class="info">
+                        <h3><?= htmlspecialchars($produto['nome']) ?></h3>
+                        <p>R$ <?= number_format($produto['preco'], 2, ',', '.') ?></p>
                         <form method="POST" action="controllers/adicionarAoCarrinho.php">
                             <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
                             <input type="hidden" name="quantidade" value="1">
                             <button type="submit" class="botao-carrinho">Adicionar ao carrinho</button>
                         </form>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p style="text-align:center;">Nenhum produto encontrado.</p>
-            <?php endif; ?>
-        </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p style="text-align:center;">Nenhum produto encontrado.</p>
+        <?php endif; ?>
+    </div>
     <?php else: ?>
-
         <div class="carrosseis-container">  
             <!-- Product carousel section -->
             <div class="carrossel">
@@ -322,10 +323,9 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
                     </div>
                 </div>
             </div>
-        </div>
-        <?php endif; ?>
-    </main>
 
+        </div>
+    <?php endif; ?>
     <!-- Website footer -->
     <footer>
         <div class="footer">

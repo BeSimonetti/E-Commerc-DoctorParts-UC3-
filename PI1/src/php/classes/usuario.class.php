@@ -136,6 +136,8 @@
                 return $result;
             }
         }
+
+         // === EDITAR DADOS PESSOAIS (sem senha) ===
         public function editarUsuario(){
             $database = new Conexao();
             $db = $database->getConnection();
@@ -155,4 +157,44 @@
             }
         }
 
+        // === EDITAR SENHA (separado) ===
+        public function editarSenha($id_usuario, $senhaAtual, $novaSenha){
+            $conexao = new Conexao();
+            $db = $conexao->getConnection();
+
+            try {
+                // Buscar senha atual
+                $sql = "SELECT senha FROM usuarios WHERE id_usuario = :id_usuario";
+                $stmt = $db->prepare($sql);
+                $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                $stmt->execute();
+                $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if (!$usuario) {
+                    return "Usuário não encontrado";
+                }
+
+                // Verifica senha atual
+                if (!password_verify($senhaAtual, $usuario['senha'])) {
+                    return "Senha atual incorreta";
+                }
+
+                // Criptografa nova senha
+                $hashNovaSenha = password_hash($novaSenha, PASSWORD_DEFAULT);
+
+                // Atualiza no banco
+                $sqlUpdate = "UPDATE usuarios SET senha = :senha WHERE id_usuario = :id_usuario";
+                $stmtUpdate = $db->prepare($sqlUpdate);
+                $stmtUpdate->bindParam(":senha", $hashNovaSenha);
+                $stmtUpdate->bindParam(":id_usuario", $id_usuario);
+
+                if ($stmtUpdate->execute()) {
+                    return "Senha alterada com sucesso";
+                } else {
+                    return "Erro ao atualizar a senha";
+                }
+            } catch (PDOException $e) {
+                return "Erro: " . $e->getMessage();
+            }
+        }
     }
