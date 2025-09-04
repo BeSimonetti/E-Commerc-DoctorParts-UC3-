@@ -1,0 +1,168 @@
+<?php
+session_start();
+include '../classes/usuario.class.php';
+include '../classes/produto.class.php';
+include_once '../classes/carrinho.class.php';
+
+$usuarioLogadoId = $_SESSION['usuario_id'] ?? null;
+
+$termoBusca = $_GET['q'] ?? '';
+$produtosBuscados = [];
+
+if (!empty($termoBusca)) {
+    $produtoObj = new Produto();
+    $produtosBuscados = $produtoObj->buscarPorNome($termoBusca);
+}
+
+$a = new Usuario();
+$usuario = $a->selectUsuarioId($usuarioLogadoId);
+
+$carrinho = new Carrinho();
+$quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carrossel com Descrições</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to external CSS and JavaScript -->
+    <link rel="stylesheet" href="../../css/styleIndex.css">
+</head>
+
+<body>
+    <!-- Fixed header with navigation menu -->
+    <header>
+        <nav class="menu">
+            <!-- Company logo -->
+            <div class="logo">
+                <a href="index.php"><img src="../../../assets/images/logo.png" alt="Company logo" id="logo" /></a>
+            </div>
+
+            <!-- Navigation links -->
+            <ul class="nav-links">
+                <li><a href="">Início</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Serviços</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+
+            <!-- Search bar -->
+            <div id="divBusca">
+                <form action="index.php" method="GET" style="display: flex; align-items: center;">
+                    <input type="text" id="txtBusca" name="q" placeholder="Buscar..." required />
+                    <button type="submit" style="background: none; border: none; cursor: pointer;">
+                        <img src="../../../assets/images/lupa.jpg" width="20px" height="20px" alt="Buscar" />
+                    </button>
+                </form>
+            </div>
+
+            <!-- User login/register -->
+            <div class="user-access">
+                <?php if ($usuario): ?>
+                    <span>Bem-vindo, <a href="areaUsuario.php" class="yolonosay logado"><?= htmlspecialchars($usuario['nome']) ?></a>!</span> | 
+                    <a href="../controllers/logout.php" class="yolonosay logado">Sair</a>
+                <?php else: ?>
+                    <a href="javascript:void(0)" onclick="abrirPopupLogin()" class="yolonosay cadastro">Entre</a> 
+                    ou 
+                    <a href="javascript:void(0)" onclick="abrirPopupCadastro()" class="yolonosay cadastro">Cadastre-se</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Shopping cart icon -->
+                <div id="divCarrinho" style="position: relative;">
+                    <a href="carrinho.php">
+                        <img src="../../../assets/images/carrinho.jpg" width="30px" height="30px" alt="Cart" />
+                        <?php if ($quantidadeItens > 0): ?>
+                            <span class="badge-carrinho"><?= $quantidadeItens ?></span>
+                        <?php endif; ?>
+                    </a>
+                </div>
+        </nav>
+    </header>
+    <main>
+
+
+
+
+
+    
+    </main>
+        <footer>
+        <div class="footer">
+            <!-- Contact section -->
+            <div class="contato">
+                <p><img src="../../../assets/images/whatsapp.png" alt="" id="imagem-contato" />WhatsApp: 54 99269-0769</p>
+                <p><img src="../../../assets/images/telefone.png" alt="" id="imagem-contato" />Phone: 54 99262-0769</p>
+            </div>
+
+            <!-- Social media -->
+            <div class="contato">
+                <p><img src="../../../assets/images/intagram.png" alt="" id="imagem-contato" />Instagram: DoctorParts</p>
+                <p><img src="../../../assets/images/facebook.png" alt="" id="imagem-contato" />Facebook: DoctorParts</p>
+            </div>
+
+            <!-- About section -->
+            <div class="footer-descricao">
+                <h2>About Us</h2>
+                <p>180 years delivering the wrong parts, experts at late delivery with a small variety of brands.</p>
+                <p>&copy; 2025 Company Name | All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Registration modal PopUp-->
+    <div id="popupCadastro" class="modal">
+        <div class="modal-conteudo">
+            <!-- Close button -->
+            <span class="fechar" onclick="fecharPopupCadastro()">&times;</span>
+            <h2>Cadastro</h2>
+            <!-- Registration form -->
+            <form id="formCadastro" action="../controllers/inserirCadastro.php" method="POST">
+                <div class="input-modal">   
+                    <input type="text" id="nome" name="nome" required placeholder="Insira seu nome">
+                </div>
+                <div class="input-modal">
+                    <input type="email" id="email" name="email" required placeholder="Insira seu e-mail">
+                </div>
+                <div class="input-modal">
+                    <input type="text" id="cpf" name="cpf" required placeholder="Inisira seu CPF">
+                </div>
+                <div class="input-modal">
+                    <input type="tel" id="contato" name="contato" required placeholder="(00) 00000-0000">
+                </div>
+                <div class="input-modal">
+                    <input type="password" id="senha" name="senha" required placeholder="Insira sua senha">
+                </div>
+                <button type="submit" >Registrar</button>
+            </form>
+        </div>
+    </div>
+    <!-- Login PopUp -->
+    <div id="popupLogin" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar" onclick="fecharPopupLogin()">&times;</span>
+            <h2>Login</h2>
+            <form id="formLogin" action="../auth/validarLogin.php" method="POST">
+                <div class="input-modal">
+                    <input type="email" id="emailLogin" name="emailLogin" required placeholder="Insira seu e-mail">
+                </div>
+                <div class="input-modal">
+                    <input type="password" id="senhaLogin" name="senhaLogin" required placeholder="Insira sua senha">
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    <!-- Successfully message -->
+    <div id="mensagemRetorno" class="mensagem-sucesso" ></div>
+    <script src="https://unpkg.com/imask"></script>
+    <script src="../../js/scriptIndex.js" defer></script>
+</body>
+
+</html>

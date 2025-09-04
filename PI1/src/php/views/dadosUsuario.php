@@ -76,11 +76,11 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
                     <div class="usuario">
                         <p><strong>Nome:</strong> <?= htmlspecialchars($usuario['nome']) ?></p>    
                         <p><strong>Email do Usuário:</strong> <?= htmlspecialchars($usuario['email']) ?></p>
-                        <p><strong>Telefone:</strong> <?= htmlspecialchars($usuario['contato']) ?></p>
                         <p><strong>CPF:</strong> <?= htmlspecialchars($usuario['cpf']) ?></p>
+                        <p><strong>Telefone:</strong> <?= htmlspecialchars($usuario['contato']) ?></p>
                     </div>
                     <div class="actions">
-                        <a href="editarDados.php" class="btn">Editar Dados</a>
+                        <a href="javascript:void(0)" onclick='abrirPopupEditarDadosUsuario(<?php echo json_encode($usuario, JSON_UNESCAPED_UNICODE); ?>)' class="btn">Editar Dados</a>
                         <a href="alterarSenha.php" class="btn">Alterar Senha</a> 
                     </div>
                 </div>
@@ -192,26 +192,46 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
         <div class="modal-conteudo">
             <!-- Close button -->
             <span class="fechar" onclick="fecharPopupEditarDadosUsuario()">&times;</span>
-            <h2>Cadastro</h2>
+            <h2>Editar Dados do Usuário</h2>
             <!-- Registration form -->
             <form id="formEditarDadosUsuario" action="../controllers/editarDadosUsuario.php" method="POST">
-                <input type="hidden" name="id" value="<?php echo $usuario['id_usuario']; ?>">
+                <input type="hidden" name="id_usuario" id="editar_id_usuario">
                 <div class="input-modal">   
-                    <input type="text" id="nome" name="nome" value="<?php echo $usuario['nome']; ?>" required>
+                    <input type="text" id="editar_nome" name="nome" required placeholder="Insira o seu nome">
                 </div>
                 <div class="input-modal">
-                    <input type="email" id="email" name="email" value="<?php echo $usuario['email']; ?>" required>
+                    <input type="email" id="editar_email" name="email" required placeholder="Insira seu e-mail">
                 </div>
                 <div class="input-modal">
-                    <input type="text" id="cpf" name="cpf" value="<?php echo $usuario['cpf']; ?>" required>
+                    <input type="text" id="editar_cpf" name="cpf" required placeholder="Inisira seu CPF">
                 </div>
                 <div class="input-modal">
-                    <input type="tel" id="contato" name="contato" value="<?php echo $usuario['contato']; ?>" required>
+                    <input type="tel" id="editar_contato" name="contato" required placeholder="(00) 00000-0000">
                 </div>
                 <button type="submit" >Salvar</button>
             </form>
         </div>
     </div>
+
+    <div id="popupAlterarSenha" class="popup" style="display:none;">
+        <div class="modal-conteudo">
+            <h3>Alterar Senha</h3>
+            <form id="formAlterarSenha" action="../../php/controllers/alterarSenha.php" method="POST">
+                <input type="hidden" name="id_usuario" id="senha_id_usuario" value="<?php echo $_SESSION['id_usuario']; ?>">
+                <div class="input-modal">
+                    <input type="password" id="senha_atual" name="senha_atual" required placeholder="Inisira sua senha atual">
+                </div>
+                <div class="input-modal">
+                    <input type="password" id="nova_senha" name="nova_senha" required placeholder="Insira sua senha nova">
+                </div>
+                <div class="input-modal">
+                    <input type="password" id="nova_senha" name="nova_senha" required placeholder="Insira sua senha nova">
+                </div>
+                <button type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+
 
     <!-- Edit user data modal PopUp-->
     <div id="popupEditarDadosEndereco" class="modal">
@@ -265,7 +285,7 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
     </div>
 
     <div id="mensagemRetorno" class="mensagem-sucesso" ></div>
-    <script src="../../js/scriptDadosUsuario.js" defer></script>
     <script src="https://unpkg.com/imask"></script>
+    <script src="../../js/scriptDadosUsuario.js" defer></script>
 </body>
 </html>

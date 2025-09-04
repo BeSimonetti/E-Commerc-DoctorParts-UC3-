@@ -359,7 +359,7 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
             <!-- Registration form -->
             <form id="formCadastro" action="../controllers/inserirCadastro.php" method="POST">
                 <div class="input-modal">   
-                    <input type="text" id="nome" name="nome" required placeholder="Insira seu nome completo">
+                    <input type="text" id="nome" name="nome" required placeholder="Insira seu nome">
                 </div>
                 <div class="input-modal">
                     <input type="email" id="email" name="email" required placeholder="Insira seu e-mail">
@@ -395,8 +395,8 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
     </div>
     <!-- Successfully message -->
     <div id="mensagemRetorno" class="mensagem-sucesso" ></div>
-    <script src="../../js/scriptIndex.js" defer></script>
     <script src="https://unpkg.com/imask"></script>
+    <script src="../../js/scriptIndex.js" defer></script>
 </body>
 
 </html>

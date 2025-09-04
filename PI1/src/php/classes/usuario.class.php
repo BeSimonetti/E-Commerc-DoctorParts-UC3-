@@ -141,14 +141,14 @@
         public function editarUsuario(){
             $database = new Conexao();
             $db = $database->getConnection();
-            $sql = "UPDATE usuarios SET nome=:nome, email=:email, contato=:contato, cpf=:cpf WHERE id_usuario=:id_usuario";
+            $sql = "UPDATE usuarios SET nome=:nome, email=:email, cpf=:cpf, contato=:contato WHERE id_usuario=:id_usuario";
             try{
                 $stmt = $db->prepare($sql);
-                $stmt->bindParam(':id_usuario',$this->id_usuario);
+                $stmt->bindParam(':id_usuario',$this->id_usuario, PDO::PARAM_INT);
                 $stmt->bindParam(':nome',$this->nome);
-                $stmt->bindParam(':contato',$this->contato);
                 $stmt->bindParam(':email',$this->email);
                 $stmt->bindParam(':cpf',$this->cpf);
+                $stmt->bindParam(':contato',$this->contato);
                 $stmt->execute();
                 return true;
             } catch(PDOException $e){
