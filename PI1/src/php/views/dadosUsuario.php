@@ -29,7 +29,7 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
     <link rel="stylesheet" href="../../css/styleDadosUsuario.css">
 </head>
 <body>
-    <header>
+    <header id="topo">
         <nav class="menu">
             <!-- Company logo -->
             <div class="logo">
@@ -38,10 +38,10 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
 
             <!-- Navigation links -->
             <ul class="nav-links">
-                <li><a href="#">Início</a></li>
-                <li><a href="#">Sobre</a></li>
+                <li><a href="#topo">Início</a></li>
+                <li><a href="sobre.php">Sobre</a></li>
                 <li><a href="#">Serviços</a></li>
-                <li><a href="#">Contato</a></li>
+                <li><a href="#contato">Contato</a></li>
             </ul>
 
             <!-- Search bar -->
@@ -81,7 +81,7 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
                     </div>
                     <div class="actions">
                         <a href="javascript:void(0)" onclick='abrirPopupEditarDadosUsuario(<?php echo json_encode($usuario, JSON_UNESCAPED_UNICODE); ?>)' class="btn">Editar Dados</a>
-                        <a href="alterarSenha.php" class="btn">Alterar Senha</a> 
+                        <a href="javascript:void(0)" onclick='abrirPopupAlterarSenha(<?php echo json_encode($usuario, JSON_UNESCAPED_UNICODE); ?>)' class="btn">Alterar Senha</a> 
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
     </main>
 
     <!-- Website footer -->
-    <footer>
+    <footer id="contato">
         <div class="footer">
             <!-- Contact section -->
             <div class="contato">
@@ -193,7 +193,6 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
             <!-- Close button -->
             <span class="fechar" onclick="fecharPopupEditarDadosUsuario()">&times;</span>
             <h2>Editar Dados do Usuário</h2>
-            <!-- Registration form -->
             <form id="formEditarDadosUsuario" action="../controllers/editarDadosUsuario.php" method="POST">
                 <input type="hidden" name="id_usuario" id="editar_id_usuario">
                 <div class="input-modal">   
@@ -213,24 +212,27 @@ $enderecos = $e->buscarEnderecosPorUsuario($usuarioLogadoId);
         </div>
     </div>
 
-    <div id="popupAlterarSenha" class="popup" style="display:none;">
+    <div id="popupAlterarSenha" class="modal">
         <div class="modal-conteudo">
+            <!-- Botão fechar -->
+            <span class="fechar" onclick="fecharPopupAlterarSenha()">&times;</span>
             <h3>Alterar Senha</h3>
-            <form id="formAlterarSenha" action="../../php/controllers/alterarSenha.php" method="POST">
-                <input type="hidden" name="id_usuario" id="senha_id_usuario" value="<?php echo $_SESSION['id_usuario']; ?>">
+            <form id="formAlterarSenha" action="../controllers/alterarSenha.php" method="POST">
+                <input type="hidden" name="id_usuario" id="senha_id_usuario" value="<?php echo $usuario['id_usuario']; ?>">
                 <div class="input-modal">
-                    <input type="password" id="senha_atual" name="senha_atual" required placeholder="Inisira sua senha atual">
+                    <input type="password" id="senha_atual" name="senha_atual" required placeholder="Insira sua senha atual">
                 </div>
                 <div class="input-modal">
-                    <input type="password" id="nova_senha" name="nova_senha" required placeholder="Insira sua senha nova">
+                    <input type="password" id="nova_senha" name="nova_senha" required placeholder="Insira sua nova senha">
                 </div>
                 <div class="input-modal">
-                    <input type="password" id="nova_senha" name="nova_senha" required placeholder="Insira sua senha nova">
+                    <input type="password" id="confirmar_nova_senha" name="confirmar_nova_senha" required placeholder="Confirme sua nova senha">
                 </div>
                 <button type="submit">Salvar</button>
             </form>
         </div>
     </div>
+
 
 
     <!-- Edit user data modal PopUp-->

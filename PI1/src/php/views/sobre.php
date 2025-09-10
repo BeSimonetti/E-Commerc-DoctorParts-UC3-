@@ -32,12 +32,12 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Link to external CSS and JavaScript -->
-    <link rel="stylesheet" href="../../css/styleIndex.css">
+    <link rel="stylesheet" href="../../css/styleSobre.css">
 </head>
 
 <body>
     <!-- Fixed header with navigation menu -->
-    <header>
+    <header id="topo">
         <nav class="menu">
             <!-- Company logo -->
             <div class="logo">
@@ -46,10 +46,10 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
 
             <!-- Navigation links -->
             <ul class="nav-links">
-                <li><a href="">Início</a></li>
-                <li><a href="#">Sobre</a></li>
+                <li><a href="#topo">Início</a></li>
+                <li><a href="sobre.php">Sobre</a></li>
                 <li><a href="#">Serviços</a></li>
-                <li><a href="#">Contato</a></li>
+                <li><a href="#contato">Contato</a></li>
             </ul>
 
             <!-- Search bar -->
@@ -86,14 +86,32 @@ $quantidadeItens = $usuario ? $carrinho->contarItens($usuarioLogadoId) : 0;
         </nav>
     </header>
     <main>
-
-
-
-
+        <!-- Seção com imagem de fundo -->
+        <section class="hero">
+            <div class="conteudo">
+                <h1>
+                    Sobre a <span class="doctor">Doctor</span><span class="parts">Parts</span>
+                </h1>
+                <h2>Quem Somos – DoctorParts</h2>
+                <p>
+                    Há mais de 50 anos em movimento, a DoctorParts é referência no mercado de duas rodas em Erechim, Rio Grande do Sul, Brasil. 
+                    Nascemos com a paixão por motos e a missão de oferecer sempre o melhor em peças e acessórios para todos os estilos de pilotos – do iniciante ao profissional, do street ao off-road. <br><br>
+                    
+                    Nosso portfólio é completo: peças para motos de pequeno, médio e grande porte, roupas técnicas para Cross e Street, além de uma linha completa de equipamentos e proteções que garantem segurança, desempenho e estilo sobre duas rodas. <br><br>
+                    
+                    Mais do que uma loja, somos um ponto de encontro para motoqueiros. Um espaço onde tradição e modernidade se misturam: aqui você pode encontrar amigos, conhecer novos estilos de motocicletas, compartilhar experiências e até mesmo fazer uma pausa para um bom café. <br><br>
+                    
+                    Ao longo dessas cinco décadas, a DoctorParts se mantém em constante evolução, acompanhando as mudanças do mercado, investindo em novas tecnologias e atualizando seus métodos de venda. 
+                    Tudo isso para oferecer uma experiência única, que vai muito além da compra de um produto — é sobre viver a cultura das motos em sua essência. <br><br>
+                    
+                    <strong>DoctorParts – 50 anos acelerando histórias sobre duas rodas.</strong>
+                </p>
+            </div>
+        </section>
 
     
     </main>
-        <footer>
+    <footer id="contato">
         <div class="footer">
             <!-- Contact section -->
             <div class="contato">

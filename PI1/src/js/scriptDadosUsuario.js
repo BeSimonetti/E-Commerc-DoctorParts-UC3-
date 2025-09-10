@@ -228,6 +228,52 @@ if (formEditarUsuario) {
         .catch(() => exibirMensagem('Erro ao enviar os dados.', 'erro'));
     });
 }
+// ---------------------- EDITAR SENHA ----------------------
+const formAlterarSenha = document.getElementById('formAlterarSenha');
+
+function abrirPopupAlterarSenha(id_usuario) {
+    document.getElementById('senha_id_usuario').value = id_usuario;
+    document.getElementById('popupAlterarSenha').style.display = 'flex';
+}
+
+function fecharPopupAlterarSenha() {
+    document.getElementById('popupAlterarSenha').style.display = 'none';
+}
+
+if (formAlterarSenha) {
+    formAlterarSenha.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const novaSenha = document.getElementById('nova_senha').value;
+        const confirmarSenha = document.getElementById('confirmar_nova_senha').value;
+
+        // Validação de confirmação
+        if (novaSenha !== confirmarSenha) {
+            exibirMensagem('A nova senha e a confirmação não coincidem.', 'erro');
+            return;
+        }
+
+        const dados = new URLSearchParams(new FormData(formAlterarSenha));
+
+        fetch(formAlterarSenha.action, {
+            method: 'POST',
+            body: dados
+        })
+        .then(r => r.json())
+        .then(res => {
+            if (res.status === 'ok') {
+                exibirMensagem(res.message || 'Senha alterada com sucesso!');
+                fecharPopupAlterarSenha();
+                formAlterarSenha.reset();
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                exibirMensagem(res.message || 'Erro ao alterar a senha.', 'erro');
+            }
+        })
+        .catch(() => exibirMensagem('Erro ao enviar os dados.', 'erro'));
+    });
+}
+
 
 // ---------------------- EXCLUIR ENDEREÇO ----------------------
 if (formExcluir) {

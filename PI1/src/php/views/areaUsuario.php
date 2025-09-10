@@ -26,7 +26,7 @@
 
     </head>
     <body>
-        <header>
+        <header id="topo">
             <nav class="menu">
                 <!-- Company logo -->
                 <div class="logo">
@@ -35,10 +35,10 @@
 
                 <!-- Navigation links -->
                 <ul class="nav-links">
-                    <li><a href="#">Início</a></li>
-                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#topo">Início</a></li>
+                    <li><a href="sobre.php">Sobre</a></li>
                     <li><a href="#">Serviços</a></li>
-                    <li><a href="#">Contato</a></li>
+                    <li><a href="#contato">Contato</a></li>
                 </ul>
 
                 <!-- Search bar -->
@@ -83,7 +83,7 @@
             </div> 
         </div>
         <!-- Website footer -->
-        <footer>
+        <footer id="contato">
             <div class="footer">
                 <!-- Contact section -->
                 <div class="contato">
